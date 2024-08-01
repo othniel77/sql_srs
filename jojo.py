@@ -14,7 +14,7 @@ with tab1:
     # st.dataframe(df)
     sql_query = st.text_area(label="entrez votre input")
     st.write(f"Vous avez entré la query suivante: {sql_query}")
-    result = duckdb.query(sql_query)
+    result = duckdb.query(sql_query).df()
     st.dataframe(result)
 with tab2:
     st.header("A dog")
