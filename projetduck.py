@@ -40,6 +40,7 @@ if query:
         st.write("Some columns are missing")
     try:
         result = result[solution_df.columns]
+
     except KeyError as e:
         st.write("Some columns are missing")
 
