@@ -2,6 +2,7 @@ import io
 
 import duckdb
 import pandas as pd
+
 import streamlit as st
 
 con = duckdb.connect(database="data/exercices_sql_tables.duckdb", read_only=False)
@@ -16,8 +17,8 @@ data = {
     "tables": [["beverages", "food_items"], "simple_window"],
     "last_reviewed": ["1970-01-01", "1970-01-01"]
 }
-memory_state_d = pd.DataFrame(data)
-con.execute("CREATE TABLE IF NOT EXISTS memory_stat AS SELECT * FROM memory_state_d")
+memory_state_df = pd.DataFrame(data)
+con.execute("CREATE TABLE IF NOT EXISTS memory_state AS SELECT * FROM memory_state_df")
 # -----------------------------------------------------------
 # CROSS JOIN EXERCICES
 # -----------------------------------------------------------
