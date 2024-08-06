@@ -10,11 +10,11 @@ import streamlit as st
 try:
     import duckdb
 except ModuleNotFoundError as e:
-    exec(open("test_new.py").read())
+    exec(open("requirement.txt").read())
 
 if "data" not in os.listdir():
-    logging.debug(os.listdir())
-    logging.debug("creating folder data")
+    logging.error(os.listdir())
+    logging.error("creating folder data")
     os.mkdir("data")
 
 if "exercises_sql_tables.duckdb" not in os.listdir("data"):
