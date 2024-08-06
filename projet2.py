@@ -1,41 +1,41 @@
 # pylint : disable=missing-module-docstring
 
 import io
-import logging
 
-
+import duckdb
 import pandas as pd
-import pip
 import streamlit as st
 
-try:
-    import duckdb
-except ModuleNotFoundError as e:
-    pip.main(['install','duckdb'])
 
-if "data" not in os.listdir():
-    logging.error(os.listdir())
-    logging.error("creating folder data")
-    os.mkdir("data")
 
-if "exercises_sql_tables.duckdb" not in os.listdir("data"):
-    exec(open("init_db.py").read())
-    # subprocess.run(["python","init_db.py"])
 
 con = duckdb.connect(database="data/exercices_sql_tables.duckdb", read_only=False)
 
 with (st.sidebar):
+    available_themes_df = con.execute("SELECT DISTINCT theme FROM memory_state").df()
+
     theme = st.selectbox(
         "What would you like to review?",
-        ("cross_joins", "GroupBy", "Windows Functions"),
+        available_themes_df["theme"].unique(),
         index=None,
-        placeholder="Select a theme..."
+        placeholder="Select a theme...",
     )
-    st.write("You selected:", theme)
-
-    exercise = con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'").df().sort_values("last_reviewed").reset_index()
+    if theme:
+        st.write("You selected:", theme)
+        exercise = (
+            con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'")
+            .df()
+            .sort_values("last_reviewed").
+            reset_index()
+        )
+    else:
+        exercise = (
+            con.execute(f"SELECT * FROM memory_state")
+            .df()
+            .sort_values("last_reviewed").
+            reset_index()
+        )
     st.write(exercise)
-
     exercise_name = exercise.loc[0, "exercise_name"]
     with open(f"answer/{exercise_name}.sql", "r") as f:
         answer = f.read()
