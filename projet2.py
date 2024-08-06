@@ -3,11 +3,13 @@
 import io
 import logging
 
-import duckdb
+
 import pandas as pd
 import streamlit as st
 
-if "import duckdb" not in os.listdir():
+try:
+    import duckdb
+except ModuleNotFoundError as e:
     exec(open("test_new.py").read())
 
 if "data" not in os.listdir():
