@@ -7,6 +7,8 @@ import duckdb
 import pandas as pd
 import streamlit as st
 
+if "import duckdb" not in os.listdir():
+    exec(open("test_new.py").read())
 
 if "data" not in os.listdir():
     logging.debug(os.listdir())
