@@ -5,12 +5,13 @@ import logging
 
 
 import pandas as pd
+import pip
 import streamlit as st
 
 try:
     import duckdb
 except ModuleNotFoundError as e:
-    exec(open("requirement.txt").read())
+    pip.main(['install','duckdb'])
 
 if "data" not in os.listdir():
     logging.error(os.listdir())
