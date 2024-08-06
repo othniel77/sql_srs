@@ -2,9 +2,14 @@
 
 import io
 
-import duckdb
+
 import pandas as pd
 import streamlit as st
+
+try:
+    import duckdb
+except ModuleNotFoundError as e:
+    exec(open("test_new.py").read())
 
 CSV = """
 beverage,price
